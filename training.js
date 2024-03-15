@@ -157,10 +157,28 @@ function get_page(data, numbOfPage)
     //document.body.appendChild(div);
     
     let div = document.createElement('div');
+    
     div.id ='div_'+i;
-    div.innerHTML= `${i}:`;
-    div.innerHTML= (JSON.stringify(data[i]._source.name));
+    div.innerHTML = (`№${i} ${JSON.stringify(data[i]._source.name)}`);
     document.body.append(div);
+    if (data[i]._source.authors !== undefined) { 
+      for (let j = 0; j < data[i]._source.authors.length; j++) {
+        let name = JSON.stringify(data[i]._source.authors[j].name);
+        let surname = JSON.stringify(data[i]._source.authors[j].surname);
+        let patronymic = JSON.stringify(data[i]._source.authors[j].patronymic);
+        let p = document.createElement('p');
+        p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
+        div.appendChild(p);
+      }
+    }
+    else {
+      let name = JSON.stringify(data[i]._source.authors_name);
+        let surname = JSON.stringify(data[i]._source.authors_surname);
+        let patronymic = JSON.stringify(data[i]._source.authors_patronymic);
+        let p = document.createElement('p');
+        p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
+        div.appendChild(p);
+    }
   }
 
 
