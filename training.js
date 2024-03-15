@@ -26,28 +26,55 @@ const uid = '10184556';
 const start_date = '2023-01-01';
 const end_date = '2023-12-31';
 
-const payload = {
-search_query: null,
-critical_technologies: [],
-dissertations: false,
-full_text_available: false,
-ikrbses: false,
-nioktrs: false,
-organization: [uid],
-page: 1,
-priority_directions: [],
-rids: false,
-rubrics: [],
-search_area: 'Во всех полях',
-sort_by: 'Дата регистрации',
-open_license: false,
-free_licenses: false,
-expert_estimation_exist: false,
-start_date: start_date,
-end_date: end_date
-};
+function set_payload(page,uid)
+{
+  const payload = {
+  search_query: null,
+  critical_technologies: [],
+  dissertations: false,
+  full_text_available: false,
+  ikrbses: false,
+  nioktrs: false,
+  organization: [uid],
+  page: page,
+  priority_directions: [],
+  rids: false,
+  rubrics: [],
+  search_area: 'Во всех полях',
+  sort_by: 'Дата регистрации',
+  open_license: false,
+  free_licenses: false,
+  expert_estimation_exist: false,
+  start_date: start_date,
+  end_date: end_date
+  };
+  return payload;
+}
 
-const session = axios.create({
+
+
+//const payload = {
+//search_query: null,
+//critical_technologies: [],
+//dissertations: false,
+//full_text_available: false,
+//ikrbses: false,
+//nioktrs: false,
+//organization: [uid],
+//page: 1,
+//priority_directions: [],
+//rids: false,
+//rubrics: [],
+//search_area: 'Во всех полях',
+//sort_by: 'Дата регистрации',
+//open_license: false,
+//free_licenses: false,
+//expert_estimation_exist: false,
+//start_date: start_date,
+//end_date: end_date
+//};
+
+const instance = axios.create({
 
 baseURL: 'https://rosrid.ru',
 timeout: 1000,
@@ -79,8 +106,8 @@ function page() {
 }
 
 function res(numbOfPage) {
-  payload.page = numbOfPage;
-  session.post('api/base/search', payload)
+  //payload.page = numbOfPage;
+  instance.post('api/base/search', set_payload(numbOfPage,uid))
     .then(function (response) {
       console.log(response);
       //for (let i = 0; i < max_in_page;i++)
@@ -116,8 +143,8 @@ function res(numbOfPage) {
 
 function change_page(numbOfPage) {
   
-  payload.page = numbOfPage;
-  session.post('api/base/search', payload)
+  //payload.page = numbOfPage;
+  instance.post('api/base/search', set_payload(numbOfPage,uid))
     .then(function (response) {
       console.log(response);
       //for (let i = 0; i < max_in_page;i++)
@@ -159,7 +186,7 @@ function get_page(data, numbOfPage)
     let div = document.createElement('div');
     
     div.id ='div_'+i;
-    div.innerHTML = (`№${i} ${JSON.stringify(data[i]._source.name)}`);
+    div.innerHTML = (`№${i} ${data[i]._source.name}`);
     document.body.append(div);
     if (data[i]._source.authors !== undefined) { 
       for (let j = 0; j < data[i]._source.authors.length; j++) {
