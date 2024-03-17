@@ -258,32 +258,32 @@ function get_page(data, numbOfPage)
     
     `);
     document.body.append(div);
-    if (data[i]._source.authors !== undefined) { 
-      for (let j = 0; j < data[i]._source.authors.length; j++) {
-        let name = JSON.stringify(data[i]._source.authors[j].name);
-        let surname = JSON.stringify(data[i]._source.authors[j].surname);
-        let patronymic = JSON.stringify(data[i]._source.authors[j].patronymic);
-        let p = document.createElement('p');
-        p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
-        div.appendChild(p);
-      }
-    }
-    else {
-      let name = JSON.stringify(data[i]._source.authors_name);
-        let surname = JSON.stringify(data[i]._source.authors_surname);
-        let patronymic = JSON.stringify(data[i]._source.authors_patronymic);
-        let p = document.createElement('p');
-        p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
-        div.appendChild(p);
-    }
-    let abstract = document.createElement('p');
-    if(data[i]._source.abstract)
-      abstract.innerHTML = (data[i]._source.abstract);
-    else if(data[i]._source.annotation){
-      abstract.innerHTML = (data[i]._source.annotation)
-     }
-    
-    div.appendChild(abstract);
+//    if (data[i]._source.authors !== undefined) { 
+//      for (let j = 0; j < data[i]._source.authors.length; j++) {
+//        let name = JSON.stringify(data[i]._source.authors[j].name);
+//        let surname = JSON.stringify(data[i]._source.authors[j].surname);
+//        let patronymic = JSON.stringify(data[i]._source.authors[j].patronymic);
+//        let p = document.createElement('p');
+//        p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
+//        div.appendChild(p);
+//      }
+//    }
+//    else {
+//      let name = JSON.stringify(data[i]._source.authors_name);
+//        let surname = JSON.stringify(data[i]._source.authors_surname);
+//        let patronymic = JSON.stringify(data[i]._source.authors_patronymic);
+//        let p = document.createElement('p');
+//        p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
+//        div.appendChild(p);
+//    }
+//    let abstract = document.createElement('p');
+//    if(data[i]._source.abstract)
+//      abstract.innerHTML = (data[i]._source.abstract);
+//    else if(data[i]._source.annotation){
+//      abstract.innerHTML = (data[i]._source.annotation)
+//     }
+//    
+//    div.appendChild(abstract);
   }
 
 
