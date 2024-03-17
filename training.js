@@ -214,6 +214,15 @@ function get_work_supervisor(data, i)
     return `Имя: ${data[i]._source.work_supervisor.name}  Фамилия: ${data[i]._source.work_supervisor.surname} Отчество: ${data[i]._source.work_supervisor.patronymic}`;
   return "Нет данных";
 }
+
+function get_oecds(data, i)
+{
+  if (data[i]._source.oecds)
+  {
+    return `Имя: ${data[i]._source.oecds[0].name} Код: ${data[i]._source.oecds[0].code}`; 
+  }
+}
+
 function get_page(data, numbOfPage)
 {
   if(document.getElementById('div_1')!==null)
@@ -243,7 +252,7 @@ function get_page(data, numbOfPage)
     <a href="#win${i}" class="button button-blue">№${i} ${data[i]._source.name}</a>
 <a href="#x" class="overlay" id="win${i}"></a>
 <div class="popup">
-    <p>${data[i]._source.name}</p>
+    <h1>${data[i]._source.name}</h1>
    <p> ${get_discriptions(data,i)}</p>
      <p>${get_authors(data, i)}</p>
      <p>Руководитель:  <br>
@@ -251,7 +260,8 @@ function get_page(data, numbOfPage)
      </p>
     <p>Ключевые слова: <br>
     ${get_keyword_list(data, i)} </p>
-
+    <p>oecds:<br>
+    ${get_oecds(data, i)}</p>
     <a class="close" title="Закрыть" href="#close"></a>
 </div>
     
