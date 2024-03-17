@@ -166,6 +166,49 @@ function change_page(numbOfPage) {
     });
 }
 
+function get_authors(data,i)
+{
+  let str = '';
+ 
+    if (data[i]._source.authors !== undefined) {
+      for (let j = 0; j < data[i]._source.authors.length; j++) {
+        let name = JSON.stringify(data[i]._source.authors[j].name);
+        let surname = JSON.stringify(data[i]._source.authors[j].surname);
+        let patronymic = JSON.stringify(data[i]._source.authors[j].patronymic);
+       
+        str+= `Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic} <br>`;
+       
+      }
+    }
+    else {
+      let name = JSON.stringify(data[i]._source.authors_name);
+      let surname = JSON.stringify(data[i]._source.authors_surname);
+      let patronymic = JSON.stringify(data[i]._source.authors_patronymic);
+        
+      str+= `Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic} <br>`;
+     
+    }
+    
+  return str;
+}
+function get_discriptions(data, i) {
+  //let abstract = document.createElement('p');
+  if (data[i]._source.abstract)
+    return `${data[i]._source.abstract}`;
+  else if (data[i]._source.annotation) {
+    return `${data[i]._source.annotation}`;
+  }
+}
+
+function get_keyword_list(data, i)
+{
+  let str=''
+  for (let j = 0; j < data[i]._source.keyword_list.length; j++)
+    str += data[i]._source.keyword_list[j].name +', ';
+  return str
+  
+}
+
 function get_page(data, numbOfPage)
 {
   if(document.getElementById('div_1')!==null)
@@ -174,7 +217,12 @@ function get_page(data, numbOfPage)
     element = document.getElementById(`div_${i}`); 
     element.remove();
   }
-  
+  if(document.getElementById('win1')!==null)
+  for(let i = 0; i < 10; i++)
+  {
+    element = document.getElementById(`win1`); 
+    element.remove();
+  }
   for (let i = 0; i < 10; i++) {
     console.log(JSON.stringify(data[i]._source.name))
     //let div = document.createElement('div');
@@ -186,7 +234,20 @@ function get_page(data, numbOfPage)
     let div = document.createElement('div');
     
     div.id ='div_'+i;
-    div.innerHTML = (`№${i} ${data[i]._source.name}`);
+    div.innerHTML = (`
+    <a href="#win${i}" class="button button-blue">№${i} ${data[i]._source.name}</a>
+<a href="#x" class="overlay" id="win${i}"></a>
+<div class="popup">
+    <p>${data[i]._source.name}</p>
+   <p> ${get_discriptions(data,i)}</p>
+     <p>${get_authors(data, i)}</p>
+    <p>Ключевые слова: <br>
+    ${get_keyword_list(data, i)} </p>
+    <a class="close" title="Закрыть" href="#close"></a>
+</div>
+    
+    
+    `);
     document.body.append(div);
     if (data[i]._source.authors !== undefined) { 
       for (let j = 0; j < data[i]._source.authors.length; j++) {
@@ -206,6 +267,14 @@ function get_page(data, numbOfPage)
         p.innerHTML = (`Имя: ${name}  Фамилия: ${surname} Отчество: ${patronymic}`);
         div.appendChild(p);
     }
+    let abstract = document.createElement('p');
+    if(data[i]._source.abstract)
+      abstract.innerHTML = (data[i]._source.abstract);
+    else if(data[i]._source.annotation){
+      abstract.innerHTML = (data[i]._source.annotation)
+     }
+    
+    div.appendChild(abstract);
   }
 
 
