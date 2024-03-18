@@ -92,25 +92,66 @@ function res(numbOfPage) {
       console.log(response);
       //for (let i = 0; i < max_in_page;i++)
       // console.log(JSON.stringify(response.data.hits.hits[i]._source.name));
-      //data = (response.data.hits.hits);
+      data = (response.data.hits.hits);
       //console.log(data[1]);
       if (response.status == 200) {
         console.log(response.data.hits.total.value / 10);
         countOfpages = response.data.hits.total.value / 10;
         footer = document.createElement('footer')
         document.body.append(footer);
-        for (let i = 1; i < countOfpages+1; i++)
+
+        let btn_min = document.createElement('button');
+           btn_min.innerHTML = 'FirstPage';
+           btn_min.classList.add('footer_btn');
+           btn_min.id = `btn_0`;
+           btn_min.addEventListener('click', () => {
+
+            // When there is a "click"
+            // it shows an alert in the browser
+            change_page(1, countOfpages,footer);
+          })
+      footer.appendChild( btn_min);
+
+
+        let cof = countOfpages;
+        if (countOfpages > 5)
+        {
+          cof = 5
+        }
+        for (let i = 1; i <= 5; i++)
         {
           let btn = document.createElement('button');
           btn.innerHTML = `${i}`;
+          btn.id = `btn_${i}`;
+          btn.classList.add('footer_btn');
           btn.addEventListener('click', () => {
             // When there is a "click"
             // it shows an alert in the browser
-            change_page(i);
+            change_page(i,countOfpages,footer);
           })         
           footer.appendChild(btn);
           //document.body.append(btn);
-          }
+        }
+
+        let  btn_max = document.createElement('button');
+           btn_max.innerHTML = 'LastPage';
+           btn_max.classList.add('footer_btn');
+       btn_max.id = `btn_${Math.ceil(countOfpages)+1}`;
+           btn_max.addEventListener('click', () => {
+             // When there is a "click"
+             // it shows an alert in the browser
+             change_page(Math.ceil(countOfpages), countOfpages, footer);
+           })
+           console.log(btn_max);
+           console.log(btn_min);
+       footer.appendChild(btn_max);
+
+
+
+
+        get_page(data);
+
+
         //if (numbOfPage < countOfpages) {
         //  res(numbOfPage + 1);
         //}
@@ -124,7 +165,7 @@ function res(numbOfPage) {
     });
 }
 
-function change_page(numbOfPage) {
+function change_page(numbOfPage,count_of_pages,footer) {
   //Делает запрос для отображение информации для определенной страницы
   instance.post('api/base/search', set_payload(numbOfPage,uid))
     .then(function (response) {
@@ -134,10 +175,70 @@ function change_page(numbOfPage) {
       data = (response.data.hits.hits);
       //console.log(data);
       if (response.status == 200) {
+        for (let i = 0; i < count_of_pages+2; i++) {
+          //console.log(document.getElementById(`btn_${i}`));
+            if (document.getElementById(`btn_${i}`)!==null) {
+              //console.log(arr);
+          
+              let arr = document.getElementById(`btn_${i}`);
+              console.log(arr);
+              arr.remove();
+            }
+          
+        }
 
-        //if (numbOfPage < countOfpages) {
-        //  res(numbOfPage + 1);
-        //}
+      let btn_min = document.createElement('button');
+           btn_min.innerHTML = 'FirstPage';
+           btn_min.classList.add('footer_btn');
+           btn_min.id = `btn_0`;
+           btn_min.addEventListener('click', () => {
+
+            // When there is a "click"
+            // it shows an alert in the browser
+            change_page(1, count_of_pages,footer);
+          })
+      footer.appendChild( btn_min);
+
+        let min_page = numbOfPage - 2;
+        let max_page = numbOfPage + 2;
+        if (min_page < 1) {
+          min_page = 1;
+          max_page = 5;
+        }
+        if (max_page > count_of_pages)
+        {
+          max_page = Math.ceil(count_of_pages);
+          min_page = Math.ceil(count_of_pages) - 4;
+          }
+          for (let i = min_page; i <= max_page; i++) {
+            let btn = document.createElement('button');
+            btn.innerHTML = `${i}`;
+            btn.classList.add('footer_btn');
+            btn.id = `btn_${i}`;
+            btn.addEventListener('click', () => {
+
+              // When there is a "click"
+              // it shows an alert in the browser
+              change_page(i, count_of_pages,footer);
+            })
+            footer.appendChild(btn);
+        }
+        
+        
+       let  btn_max = document.createElement('button');
+           btn_max.innerHTML = 'LastPage';
+           btn_max.classList.add('footer_btn');
+       btn_max.id = `btn_${Math.ceil(count_of_pages)+1}`;
+           btn_max.addEventListener('click', () => {
+             // When there is a "click"
+             // it shows an alert in the browser
+             change_page(Math.ceil(count_of_pages), count_of_pages, footer);
+           })
+           console.log(btn_max);
+           console.log(btn_min);
+       footer.appendChild(btn_max);
+        
+         
         get_page(data);
       }
       

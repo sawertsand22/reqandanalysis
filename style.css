@@ -155,9 +155,32 @@ div.popup::-webkit-scrollbar {
   border: 2px solid #000;
 }
 footer {
-   position:fixed;
+   display: flex;
+   justify-content: center;
+   justify-items: center;
    bottom:0;
    width:100%;
-   height:auto;   /* Высота блока "footer" */
+   height:auto;
+   position: sticky;   /* Высота блока "footer" */
 
+}
+
+.footer_btn
+{
+  padding: auto;
+  background-color: #009400;
+
+}
+.footer_btn:visited{
+  background-color: #1100ff;
+}
+.button
+{
+  color: #1100ff;
+  margin: 0;
+}
+.button:hover
+{
+  background-color: #f3f3f3;
+  color: purple;
 }
