@@ -85,7 +85,7 @@ function page() {
 }
 
 function res(numbOfPage) {
-  //Считает количевство страниц для добавления кнопок
+  //Считает количевство страниц для добавления кнопок и добавлояет их
   //payload.page = numbOfPage;
   instance.post('api/base/search', set_payload(numbOfPage,uid))
     .then(function (response) {
@@ -97,16 +97,19 @@ function res(numbOfPage) {
       if (response.status == 200) {
         console.log(response.data.hits.total.value / 10);
         countOfpages = response.data.hits.total.value / 10;
+        footer = document.createElement('footer')
+        document.body.append(footer);
         for (let i = 1; i < countOfpages+1; i++)
         {
           let btn = document.createElement('button');
           btn.innerHTML = `${i}`;
           btn.addEventListener('click', () => {
-          // When there is a "click"
+            // When there is a "click"
             // it shows an alert in the browser
             change_page(i);
-})
-          document.body.append(btn);
+          })         
+          footer.appendChild(btn);
+          //document.body.append(btn);
           }
         //if (numbOfPage < countOfpages) {
         //  res(numbOfPage + 1);
@@ -175,7 +178,7 @@ function get_page(data)
 { //Задает отрображение элементов для выбранной страницы
   if(document.getElementById('div_1')!==null)
   for(let i = 0; i < 10; i++)
-  {
+  { if(document.getElementById(`div_${i}`))
     element = document.getElementById(`div_${i}`); 
     element.remove();
   }
@@ -187,39 +190,41 @@ function get_page(data)
   }
   for (let i = 0; i < 10; i++) {
     //console.log(JSON.stringify(data[i]._source.name))
-
+    pages = document.getElementById('pages');
     let div = document.createElement('div');
-
+    div.classList.add('dataElement');
     div.id ='div_'+i;
 //    <a href="#win${i}" class="button button-blue">№${i} ${data[i]._source.name}</a>
 //<a href="#x" class="overlay" id="win${i}"></a>
 //<div class="popup">
 //    Дата внутри
 //</div>
-//   ШАБЛОН ДЛЯ МОДАЛЬНОГ ОКНА
-    document.body.append(div);
-    a = document.createElement('a');
-    a.href = `#win${i}`;
-    a.classList.add("button");
-    a.classList.add("button-blue");
-    a.innerHTML = `№ ${i} ${data[i]._source.name}`;
-    div.appendChild(a);
-    aSub= document.createElement('a');
-    aSub.href = '#x';
-    aSub.classList.add("overlay");
-    aSub.id= `win${i}`;
-    div.appendChild(aSub);
-    popup = document.createElement('div');
-    popup.classList.add('popup');
-    div.appendChild(popup);
-    h1 = document.createElement('h1');
-    h1.innerText = `${data[i]._source.name}`;
-    popup.appendChild(h1);
-    aClose = document.createElement('a');
-    aClose.classList.add('close');
-    aClose.href = '#close';
-    popup.appendChild(aClose);
-    setModalData(popup,data, i);
+    //   ШАБЛОН ДЛЯ МОДАЛЬНОГ ОКНА
+    if (data[i]._source.name) {
+      pages.appendChild(div);
+      a = document.createElement('a');
+      a.href = `#win${i}`;
+      a.classList.add("button");
+      a.classList.add("button-blue");
+      a.innerHTML = `№ ${i} ${data[i]._source.name}`;
+      div.appendChild(a);
+      aSub = document.createElement('a');
+      aSub.href = '#x';
+      aSub.classList.add("overlay");
+      aSub.id = `win${i}`;
+      div.appendChild(aSub);
+      popup = document.createElement('div');
+      popup.classList.add('popup');
+      div.appendChild(popup);
+      h1 = document.createElement('h1');
+      h1.innerText = `${data[i]._source.name}`;
+      popup.appendChild(h1);
+      aClose = document.createElement('a');
+      aClose.classList.add('close');
+      aClose.href = '#close';
+      popup.appendChild(aClose);
+      setModalData(popup, data, i);
+    }
   }
 
 

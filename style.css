@@ -143,3 +143,21 @@ div.popup::-webkit-scrollbar {
 .popup::-webkit-scrollbar-track {
     background-color: darkgrey;
 }
+
+.dataElement
+{
+  margin-left: 5rem;
+  margin-right: 5rem;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  border: 2px solid #000;
+}
+footer {
+   position:fixed;
+   bottom:0;
+   width:100%;
+   height:auto;   /* Высота блока "footer" */
+
+}
